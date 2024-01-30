@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}Social Network{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+    {% csrf_token %}
+    <div class="mobile fixed-bottom bg-primary text-secondary">
+        <nav class="mobile fixed-bottom bg-primary text-secondary">
+            <ul class="mr-auto container-fluid d-flex list-unstyled m-0 p-0">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item border">
+                    <a class="nav-link text-white" href="{% url 'profile' request.user.username %}"><strong><i class="fas fa-user"></i> My profile ({{ request.user.username }})</strong></a>
+                </li>
+                {% endif %}
+                <li class="nav-item border">
+                    <a class="nav-link text-white" href="{% url 'index' %}"> <i class="fas fa-envelope"></i> All Posts</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item border">
+                    <a class="nav-link text-white"   href="{% url 'following_page' %}"><i class="fas fa-users"></i>Following</a>
+                </li>
+                <li class="nav-item border">
+                    <a class="nav-link text-white" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                </li>
+                {% else %}
+                <li class="nav-item border">
+                    <a class="nav-link text-white" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Log In</a>
+                </li>
+                <div class="border">
+                </div>
+                <li class="nav-item border">
+                    <a class="nav-link text-white" href="{% url 'register' %}"><i class="fas fa-user-plus"></i>
+                        Register</a>
+                </li>
+                {% endif %}
+            </ul>
+            
+        </nav>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-5 col-md-4 col-lg-3 bg-warning p-0 desktop">
+                <nav class="flex-column nav navbar-expand-lg navbar-light bg-light mynav">
+                    <a class="navbar-brand" href="#">Network</a>
+                    <ul class="mr-auto">
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item border">
+                            <a class="nav-link" href="{% url 'profile' request.user.username %}"><strong><i class="fas fa-user"></i> My profile ({{ request.user.username }})</strong></a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item border">
+                            <a class="nav-link" href="{% url 'index' %}"> <i class="fas fa-envelope"></i> All Posts</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item border">
+                            <a class="nav-link" href="{% url 'following_page' %}"><i class="fas fa-users"></i>Following</a>
+                        </li>
+                        <li class="nav-item border">
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log
+                                Out</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item border">
+                            <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Log In</a>
+                        </li>
+                        <div class="border">
+
+                        </div>
+                        <li class="nav-item border">
+                            <a class="nav-link" href="{% url 'register' %}"><i class="fas fa-user-plus"></i>
+                                Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-sm-7 col-md-8">
+
+                {% block body %}
+                {% endblock %}
+
+            </div>
+        </div>
+        <div class="mobile bg-primary text-secondary invisible">
+            <nav class="mobile bg-primary text-secondary">
+                <ul class="mr-auto container-fluid d-flex list-unstyled m-0 p-0">
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item border">
+                        <a class="nav-link text-white" href="{% url 'profile' request.user.username %}"><strong><i class="fas fa-user"></i> My profile ({{ request.user.username }})</strong></a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item border">
+                        <a class="nav-link text-white" href="{% url 'index' %}"> <i class="fas fa-envelope"></i> All Posts</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item border">
+                        <a class="nav-link text-white"   href="{% url 'following_page' %}"><i class="fas fa-users"></i>Following</a>
+                    </li>
+                    <li class="nav-item border">
+                        <a class="nav-link text-white" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item border">
+                        <a class="nav-link text-white" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Log In</a>
+                    </li>
+                    <div class="border">
+                    </div>
+                    <li class="nav-item border">
+                        <a class="nav-link text-white" href="{% url 'register' %}"><i class="fas fa-user-plus"></i>
+                            Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                
+            </nav>
+        </div>
+        <script src="{% static 'network/script.js' %}" ></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

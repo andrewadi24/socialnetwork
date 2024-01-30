@@ -1,0 +1,114 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="container main">
+  <h1 class="text-center">All Posts</h1>
+  {% if request.user.is_authenticated%}
+  <div class="row">
+    <div class="col-12">
+      <form id="create_new_form" action=' {% url "create_post"  %}' method="POST">
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Create new posts</label>
+          <textarea name='content' class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <input type="hidden" name="user_id" value="{{ user.id }}">
+          <button class="btn btn-primary mt-3" id='create_new_btn'>Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <hr>
+  {% endif %}
+  <div class="row">
+    {% for post in page_obj%}
+    <div class="col-12 mb-3">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <a href="{% url 'profile' post.user.username %}">
+            <div>
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMMAAAC6CAMAAAAkjAmRAAAAaVBMVEX///8AAAD4+Pj09PT8/Pzt7e3w8PDm5ubi4uLY2NjLy8ujo6Ozs7PQ0NAjIyNPT0+Xl5eIiIiAgIAzMzPDw8NnZ2eOjo65ublzc3NhYWEoKCgbGxs5OTlsbGxKSkoUFBRDQ0NYWFgLCwv2f9CsAAAMuklEQVR4nO1d16KyMAz+ZcgoQ4YyxIHv/5C/52jSFlASBD0XfrcibdrspOXfvy+++OKLL7744osvPgdj7bie66yNT0+ECcM0PV+kVbbSkVWpyD3T/Ov0mG4Y7Npo9RhRnASha356og9gOblIz0+mL9Fcd8S1Pj3hHpwg2T5b/y72VRK4n560CqNI4z2DgDsZcVn8FeFY7858Au5kNDv709O/SoHbTpw/oPU+Kxnr/DEFUdacj3Hctm0cH89N9lha2nz9MQrsohqefbxNk12Q+56zvpoDw1w7np8HmyTdxsOUVMVnWMooDgOzyaqdKLxHM7K9QuwOzcD/Dp8Qb7/sC/I5yT1nbC6G4+W7vh05leFb5i2xTrquxOq08WzqWhq2t+lxVZa8VSzyujuBrcd+idfjxTpfYK7DMEt96H0spjlApujK+OE9npTh6zJZl8F0cbSKUmfKzH+DbNubkzpmVOavmSgrL7W9OG0WV7PeVlu2Mn99881c580JosVCrvFRM5OBXeearj0vKtpC46PNfKxrbNQXX8RsL+4hVceJnVnfbccX5e3prO+WWKtsm82/VELVUOUi9s5RTdJ2CccgVPXFYd5t/oWj+qgL6T9blYpqdiLsWHl9vpQdMnJllHjuhVJ4tVlSf7uK8s5mDfAsRX+3CzCqAlvh2fOMRBitovWWdpDXigZvZ2NaU3nrbnnH0twpKzbTcIbi5c1omp8NiOOdZhowkEHn5j1pFEsSsQ/meKEnXePdu+J2ZSeiGbSgJUlI3peuNhJJxOt7L1XSXPJFgqJH2lffJfBV1XvT1I50nl50L0NMYJwXjq568NCu1i85mLZcjMmx1WR2lr7T9hXPSXLShP00Q5Gk5eFwKNNEhBOECUd/Ja6TnLTl/tXdtE0tbeOpbtoNW6CQC6Zzk41RT8QzDKYYSgtfPV5mLs1AvT45rCtwFTnLYDmbQQJu2Dgc+QhxJwvu5G+wMWbgOC2ueF5a3AsGS0l7nU0TazSVnIghaJ9S8IOY4QLJStmOT8B1G+DfNX0fjZRS341SOj8F+MIpXgJmYg7kEd3h2lYfdJtvoV4p+SS4sAAZ2UD73epOVCWi8AuRVN3tOfvUl3oglRHf10H6yYyYa1n4rNIUqSn0JpSMbPcxqmNvRAgavqbyoUZCvOuvmrtT8zsNlQgTDG3DNXRIPdXMhwojNQ9MsqumI8/UKaHLwVRNHixZRNwG8yhn96TCGSo52yP11SBMMc91DmAgqi5XkrHimTlaSzdydVhqMr9ATykimjccZnUZG0g+Sp2TAx7HgWOsfVxTmm1wkc8J5dkCveGMpi4t3DuyRr6aW5Boqm1ATjpRljZAT46oLtFGMBIrDqwUMZMh1SpNi+G6Eq2ECa5bTffcIAo80TwlmYOghkoY3BBzJQXsHD0iBgVIdGt82DYifyuOTE3jcHTEyLbagFVKaI+jk0/XfaiciKEJxgFUgQCtRHS6sexR0VWf097/c6ZxOOoyqmYC9m6JEg1rxEnfYJxLm5QJNFOLvivW8xaQzEoEIocT4yEY5EJ8/f3xPVHxQWp/Q3v9HSBERIcsh1FovAfau6blQ4BkZgMVtnHRdm8Nj9MsEBjdijYZ4GxmrRGlmhitA++RHEUDvGgib4Da44ZZYIRoChx570jRrh6oSqKInnkk9yZ1pj3u3R9vKNPCbAhxLndh23PzugL+SHvcAh1AMaSbew9ORpzLNJFWhJr4/H1pL5T9Bk1M5e/74xk3Yg8zHg0gPwSrZYBaojo/wKfcOhHKHfF5cLEO40KNOo86p3fRAEJN6AnCHAs1rwS8xIgTf+EzeckEPTbOtBiTUWk4MfSFCtB/J+LzQAMh9ivurz5TPfWGoS9UgP5riM8bdwaJxg07eEsllQaGvtDA1X8GDDRuiIAGco0A/rDlFQjMLXlKN6CPP/4HcAF2VBpAX5Dzpzeg7qDqMwsSRuNMCzQQs2NXr3jFXNAbMD9DrXhipmyUBqSWrGYMYApW/RUbfrfktBcYuVEOscCVphfh4N0Rx0L4EXetMFBJxmjAxiG6C+dBAouRScRs6Ilu3iH3kIwNgzk7+qIiW+zpUh1CeMxgQEgZjeYGJ9Ag8yxbqh6wsIDKqP+TaZjAS0pJl8rcqJQ4+ZycSgPqJU6DhKzt0PICLj7P0cco06Nix9at/9T+5j2FCBvrD4zspqJbR59k27gfFNgCS8jQYISy2nM2G5te6Xaa7Gv8QnZBjnK4K/vrWG4iw9dg+3y/WMtmhvi5hg1loZ2YSLyD4fMFd7ee7gPcpraSU3s2iFBOmvKcRPBpRguvMtOfMXttlJLt6vjw/LRSiedVm6+W6x5gEqoieBqUSYOlFM+v+s/tb6PhJuojLKXxT8aizbj19WCpuM1n5k49AHhKc0/rm/HyVPudfZACesKO4x4W6npunuKfqZ+GXZ0TUeSe67heXohE7206bdhtYeBqEGwK5sj4fbFGsOqiPrZVe+ydGF9NOK4MvErIkWEunt2We5WJ8NSb7RAu4YQGajArlFw/5EyIlS8d3SPugygnHUKAaVFyQJiPZrf2WobfkvYhzg32RkDYTsqvOyB9TKE2PUHjpB+chMfcDBBpWkEbnAFW65nhJ5yri67Rd8I7sQliGpOeLllP35AzKfjBPuGUXcBs0fxEiDXojTZu/8YQErKEHMZhOxLNXQeDSOqn+sHwSYG4FHkYeq7remGYizIeeqihWiHs2yJqGghoaD2Dmh93w6UshvbQKcpL79mH/qEOsLzECiRaRMqNAUbRmVMd7545NN4m7vId5cYfB3aRum8QshPKIk6qz6dNRq8Msfyk1f+Ujq8VFpypAmQBM43GcqE+my3xfIYr9JtG2rFoCGM4+qFFiFzH3NxAE+Y2oHdsOPpZj/OItsGAgG6zMLB8zkzaqZlTwAs47EC16tFzPkeHmB6+2uBulM/mpR1dYlaBfmBq9y89c+VsMLtn+jqRGnuV0+b8wu4NvqqinrAJt+35Fx5I9cO8oLGRqn7/dLuewS4VhnrYYmmARO85dXzMfl8eKBpDyMPt0cRbsH4HUmQqEg+IcIFQ3gFubOwdjpqsQIaX9FMxg1COr9TBMKuAy0psewbIm1kG2cRXSHj1WLWrEDGodvCQG/f2FgHsPrQR8hznqnn9xhBHWpnBc6nI19wsBTooQ9ZdDjrLJUxyrKHGB3f6WKj9+/kNqVXbec7nK3eP9jUsuiXchhDlxGvUldkcteps5/PRl1hdeqPhWcMJChztXKv/2cHxWAXp58By9eqoc4yNWzTlLDt6r7osWZKTJp5pHoQMQ/TiDeqW/aR7CdDR0trcpH9AbK4lAgMRzW/Bhjlupv8OA9WFUghH92vVzHv3jIWzVTwXeY1bPPGaGOjqURdB7vncV4bIgq/kUZmEnqo9lJtr4BXyWjJuCWQU0lnGi8jkIk6/wsjFGZ/v3hYuzEvXdgxDXkhy33YTaxbxC5sujxTe0msWCPQit8Vitvp+mRqKOeM2gD4smbb4VbB49IfcscgBdh3emkVkgY9XZ+7C1g+Cwua+6G8/Avrh53/qfcMT76VA+OhYNL7MFVBPDXOBEbYn67Ory8v3SkrdFLsTmq14kK1ZUp1M8PV6kOks/DjCyzdTPUQLnCtzHhPqgj3INhfEcvfc5r2x5rmW0e+m5qld5lPQLYcRugJICDq3wi91ye0POjnoea7n+4HQywZL3kzmaSPNebGxlpZslrxp0NAYdwaVJKF2vEy4vIYBtUg/b4Si8ukC1zFLqD1ac8udoe7EYh9isbVRZudZU339Qte5axfRL3E7pqUm6+vZdJ6CQO0R4vV1kiFUO7Gd+1pjR90E9ulTMgK15nEq5rzZeF2oFjpbYpvv0Ht7ynAuqbNCre8pXvTDA642Vv20nE6Ht9O65cqFryhd642H590MuXv9SzuX5T/EYeV6l0/2ogKxNpnmjUUvfpuEBkMv8q8uyfS9cJKOs12968Jh0W0bOfg2f/Us2+92MC7qxnTglt22saMIebthh6LbNFQvLcw6jP4nyy6HTU4lw8lF2WtgrN7+2S8n6Pe/1VUq/DHLtw5FWvU7jzNGx8p8GLxr9pTFVfLoo5WWmydV3Ay1kPLupp0RTjIwmx9C9lF9TEWQh669tta2G+aBSI91tH/QAfuCZnsd9q7pt+jxcPn8dyENMcDcdNTV5nMfU5Qwi2Sw75OAOPkzXxi1vGBCl26WFB/+LGcHppvvOGTUVwL+4JeDDdMN+v26QzgG7p/+JLVTpO1ViV766upy2UdRmxZ/6lPBD2HY/tUeHNrq9xuvP996rdpDIgKf/OHLvwTDtB37z3/6+4svvvjiiy++WAz/AX40lJ7Erm5LAAAAAElFTkSuQmCC"
+                alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px;">
+              <strong>{{post.user}}</strong>
+            </div>
+          </a>
+          <small class="text-muted">{{ post.date }}</small>
+        </div>
+        <div class="card-body" id="body_{{post.id}}">
+          <p class="card-text">{{post.content}}</p>
+
+        </div>
+        <div class="card-body hidden" id="textarea_{{post.id}}">
+          <textarea class="form-control rounded">{{post.content}}</textarea>
+        </div>
+        <div class="card-footer">
+          {% if user.is_authenticated%}
+          <button type="button" id="likeButton_{{post.pk}}" class="btn btn-primary btn-sm like_btn"
+            data-postid="{{post.pk}}" data-likecount="{{post.like_count}}">
+            <i class="far fa-thumbs-up"></i> {% if post.is_liked%} Unlike {% else %} Like{% endif %}
+            <span class="badge badge-light">{{post.like_count}}</span>
+          </button>
+          {% else %}
+          <button type="button" id="likeButton_{{post.pk}}" class="btn btn-primary btn-sm like_btn disabled" disabled
+            data-postid="{{post.pk}}" data-likecount="{{post.like_count}}">
+            <i class="far fa-thumbs-up"></i> {% if post.is_liked%} Unlike {% else %} Like{% endif %}
+            <span class="badge badge-light">{{post.like_count}}</span>
+          </button>
+          {% endif %}
+          {% if request.user == post.user%}
+          <button type ="button" class="btn btn-primary btn-sm edit_btn" data-postid = '{{post.pk}}' data-content = '{{post.content}}' id = 'edit_{{post.pk}}'><i class="fas fa-edit"></i> Edit</button>
+          <button type ="button" class="btn btn-primary btn-sm save_btn hidden" id = 'save_{{post.pk}}' data-postid = {{post.pk}}> <i class="fas fa-save"></i> Save</button>
+          {% endif %}
+          <button type="button" class="btn btn-primary btn-sm"><i class="far fa-share-square"></i> Share</button>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+    <div class="pagination-container">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">First</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&lsaquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% if page_obj.object_list %}
+          {% for num in page_obj.paginator.page_range %}
+          <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+          {% endfor %}
+          {% endif %}
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&rsaquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Last</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+</div>
+{% endblock %}

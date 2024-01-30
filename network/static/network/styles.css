@@ -1,0 +1,83 @@
+.mynav {
+    min-height: 100vh;
+    height: 100%;
+    padding: 30px;
+}
+
+.mynav ul,
+.mynav ul li,
+.mynav a {
+    list-style-type: none;
+    padding: 0px;
+    width: 100%;
+}
+
+.mynav ul li {
+    padding: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.main {
+    padding-top: 30px;
+}
+
+.profile-header {
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.profile-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile-stats {
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.profile-follow-button {
+    margin-top: 10px;
+}
+
+.pagination-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 575.98px) {
+    .desktop {
+        display: none;
+    }
+}
+
+
+.mobile {
+    display: none;
+}
+
+@media (max-width: 575.98px) {
+    .mobile {
+        display: block;
+        /* Display when viewport is smaller than small breakpoint */
+    }
+
+    .nav-item {
+        flex-grow: 1;
+        text-align: center;
+    }
+}
+
+.disabled{
+    cursor: not-allowed!important;
+}
