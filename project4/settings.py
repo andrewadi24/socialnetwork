@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'my-site-social-network.gjjqbq.easypanel.host',
-    # Add any other allowed hosts here
+    '127.0.0.1'
 ]
 
 

@@ -60,7 +60,7 @@
                         <li class="nav-item border">
                             <a class="nav-link" href="{% url 'index' %}"> <i class="fas fa-envelope"></i> All Posts</a>
                         </li>
-                        {% if user.is_authenticated %}
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item border">
                             <a class="nav-link" href="{% url 'following_page' %}"><i class="fas fa-users"></i>Following</a>
                         </li>

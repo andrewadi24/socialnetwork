@@ -54,11 +54,20 @@
                     <textarea class="form-control rounded">{{post.content}}</textarea>
                 </div>
                 <div class="card-footer">
+
+                    {% if request.user.is_authenticated%}
                     <button type="button" id="likeButton_{{post.pk}}" class="btn btn-primary btn-sm like_btn"
                         data-postid="{{post.pk}}" data-likecount="{{post.like_count}}">
                         <i class="far fa-thumbs-up"></i> {% if post.is_liked%} Unlike {% else %} Like{% endif %}
                         <span class="badge badge-light">{{post.like_count}}</span>
                     </button>
+                    {% else %}
+                    <button type="button" id="likeButton_{{post.pk}}" class="btn btn-primary btn-sm like_btn disabled"
+                        disabled data-postid="{{post.pk}}" data-likecount="{{post.like_count}}">
+                        <i class="far fa-thumbs-up"></i> {% if post.is_liked%} Unlike {% else %} Like{% endif %}
+                        <span class="badge badge-light">{{post.like_count}}</span>
+                    </button>
+                    {% endif %}
                     {% if request.user == post.user%}
                     <button type="button" class="btn btn-primary btn-sm edit_btn" data-postid='{{post.pk}}'
                         data-content='{{post.content}}' id='edit_{{post.pk}}'><i class="fas fa-edit"></i> Edit</button>
